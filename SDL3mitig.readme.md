@@ -31,5 +31,63 @@ Conversations with Geminit how to debug this (esp.no sounds on WSL2).
 </pre>
 <li><a href="https://github.com/cobwebkanamachi/invaders/blob/SDL3-mitigation/Google%20GeminiQA-J.pdf">Google%20GeminiQA-J.pdf</li><BR>
 <li><a href="https://github.com/cobwebkanamachi/invaders/blob/SDL3-mitigation/Google%20GeminiQA-E.pdf">Google%20GeminiQA-E.pdf</li><BR>
+<PRE>
+This is audio_test.c:
+--CUT HERE--
+//[cobweb@invaders]$gcc audio_test.c -o audio_test $(pkg-config --cflags --libs sdl3) -lm
+//[cobweb@invaders]$./audio_test
+#include <SDL3/SDL.h>
+#include <math.h>
 
+#define SAMPLE_RATE 44100
+#define CHANNELS 2
+#define DURATION 3
+
+int main(int argc, char* argv[]) {
+if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+SDL_Log("SDL_Init Failed: %s", SDL_GetError());
+return 1;
+}
+
+// 1. オーディオスペックの設定 (Float32)
+SDL_AudioSpec spec = { SDL_AUDIO_F32, CHANNELS, SAMPLE_RATE };
+SDL_AudioDeviceID dev = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec);
+if (dev == 0) {
+SDL_Log("OpenDevice Failed: %s", SDL_GetError());
+return 1;
+}
+
+// 2. ストリームの作成とバインド
+SDL_AudioStream *stream = SDL_CreateAudioStream(&spec, &spec);
+SDL_BindAudioStream(dev, stream);
+
+// 3. サイン波データの生成と投入
+// 440Hz (ラ) の音を3秒分作成
+int num_samples = SAMPLE_RATE * DURATION * CHANNELS;
+float *buffer = (float *)SDL_malloc(num_samples * sizeof(float));
+for (int i = 0; i < num_samples / CHANNELS; i++) {
+float val = sinf(2.0f * M_PI * 440.0f * i / SAMPLE_RATE);
+buffer[i * 2] = val; // 左
+buffer[i * 2 + 1] = val; // 右
+}
+
+// データを一気に投入
+SDL_PutAudioStreamData(stream, buffer, num_samples * sizeof(float));
+
+// 4. キューがなくなるまで待機 (ここがポイント)
+SDL_ResumeAudioDevice(dev);
+SDL_Log("Playing...");
+
+while (SDL_GetAudioStreamQueued(stream) > 0) {
+SDL_Delay(100); // 100msごとにキューの残りを確認
+}
+
+SDL_Log("Done.");
+SDL_free(buffer);
+SDL_DestroyAudioStream(stream);
+SDL_CloseAudioDevice(dev);
+SDL_Quit();
+return 0;
+}
+</PRE>
 <BR>Enjoy!
