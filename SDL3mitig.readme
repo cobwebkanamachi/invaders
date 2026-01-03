@@ -1,0 +1,26 @@
+<PRE>
+Need SDL3 make it on another dir. Then make this repo.
+https://github.com/libsdl-org/SDL
+
+if you need GDB debug, please after cmake & make, then bellow.
+cmake -DCMAKE_BUILD_TYPE=Debug .
+
+You would need all deps, but manually make this.
+cd deps/SDL_sound
+make
+cd ../..
+Then, to make invaders executable do bellow.
+bash ./CMakeFiles/invaders.dir/link.txt
+/usr/bin/cc -g -rdynamic CMakeFiles/invaders.dir/deps/8080/i8080.c.o CMakeFiles/invaders.dir/deps/SDL_nmix/SDL_nmix.c.o CMakeFiles/invaders.dir/deps/SDL_nmix/SDL_nmix_file.c.o CMakeFiles/invaders.dir/src/main.c.o CMakeFiles/invaders.dir/src/invaders.c.o -o invaders  -L/usr/lib/x86_64-linux-gnu  -L./deps/SDL_sound -lSDL3 -lSDL3_sound
+
+If no sound, please make these and test these.
+
+invaders/audio_test.c: simple sine wave generator for test purpose.
+gcc audio_test.c -o audio_test $(pkg-config --cflags --libs sdl3) -lm
+
+find . -name "playsound_simple" -print
+./deps/SDL_sound/examples/playsound_simple
+find . -name "playsound_simple.c" -print
+./deps/SDL_sound/examples/playsound_simple.c
+gcc playsound_simple.c -o playsound_simple -I/usr/local/include -L/usr/local/lib -lSDL3 -lm -I../include ../CMakeFiles/SDL3_sound-static.dir/src/SDL_sound.c.o ../CMakeFiles/SDL3_sound-static.dir/src/SDL_sound_wav.c.o
+</PRE>
