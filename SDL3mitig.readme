@@ -1,6 +1,8 @@
 <PRE>
 Need SDL3 make it on another dir. Then make this repo.
-https://github.com/libsdl-org/SDL
+https://github.com/libsdl-org/
+gzip -dc invaders.tar.gz|tar xvf -
+cd invaders
 
 if you need GDB debug, please after cmake & make, then bellow.
 cmake -DCMAKE_BUILD_TYPE=Debug .
