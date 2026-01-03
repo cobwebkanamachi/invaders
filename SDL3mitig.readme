@@ -25,4 +25,7 @@ find . -name "playsound_simple" -print
 find . -name "playsound_simple.c" -print
 ./deps/SDL_sound/examples/playsound_simple.c
 gcc playsound_simple.c -o playsound_simple -I/usr/local/include -L/usr/local/lib -lSDL3 -lm -I../include ../CMakeFiles/SDL3_sound-static.dir/src/SDL_sound.c.o ../CMakeFiles/SDL3_sound-static.dir/src/SDL_sound_wav.c.o
+
+test wav file:./deps/SDL_sound/examples/a.wav (my cheap keyboard play).
+Enjoy!
 </PRE>
