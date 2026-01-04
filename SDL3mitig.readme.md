@@ -31,6 +31,7 @@ Conversations with Geminit how to debug this (esp.no sounds on WSL2).
 </pre>
 <li><a href="https://github.com/cobwebkanamachi/invaders/blob/SDL3-mitigation/Google%20GeminiQA-J.pdf">Google%20GeminiQA-J.pdf</li><BR>
 <li><a href="https://github.com/cobwebkanamachi/invaders/blob/SDL3-mitigation/Google%20GeminiQA-E.pdf">Google%20GeminiQA-E.pdf</li><BR>
+<li><a href="https://github.com/cobwebkanamachi/invaders/blob/SDL3-mitigation/Google%20GeminiBIGQApp234.pdf">Google%20GeminiBIGQApp234.pdf</li>Big QA history abount SDL3 mitigation, pp234 :-)<BR>  
 <PRE>
 This is audio_test.c:
 --CUT HERE--
